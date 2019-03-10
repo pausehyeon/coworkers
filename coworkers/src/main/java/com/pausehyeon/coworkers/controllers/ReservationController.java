@@ -10,27 +10,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pausehyeon.coworkers.domain.Reservation;
-import com.pausehyeon.coworkers.repository.ReservationRepository;
+import com.pausehyeon.coworkers.services.ReservationService;
 
 @RestController
-@RequestMapping("/reservation")
 public class ReservationController {
 	private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
 	@Autowired
-	ReservationRepository repository;
-
-	@RequestMapping(method = RequestMethod.GET)
+	ReservationService service;
+	
+	@RequestMapping(path = "reservations", method = RequestMethod.GET)
 	public List<Reservation> getReservations() {
+
+		logger.debug("controller entered");
+		service.makeReservation();
 		
-		// TODO DB Connection Test (Temp)
-		repository.save(Reservation.builder()
-				.startDtti("201901010130")
-				.endDtti("201901010200")
-				.build());
-
-		logger.debug("save completed");
-
-		return (List<Reservation>) repository.findAll();
+		return service.getReservations();
 	}
+
 }
