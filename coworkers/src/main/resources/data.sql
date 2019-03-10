@@ -10,4 +10,8 @@ insert into meeting_room (mid, name, building_name, floor, usable_from, usable_t
 
 -- Response Code
 insert into response_code (code, http_code, message) values
-('S001', '200', '정상 처리되었습니다.');
+('S001', 200, '정상 처리되었습니다.'),
+('E001', 400, '입력 항목 %s이 누락되었습니다.'),
+('E002', 400, '입력 항목 %s의 형식이 잘못되었습니다.'),
+('E101', 204, '조회된 %s(이)가 없습니다.'),
+('E999', 500, '서버에서 오류가 발생했습니다. 담당자에게 문의해주세요.');

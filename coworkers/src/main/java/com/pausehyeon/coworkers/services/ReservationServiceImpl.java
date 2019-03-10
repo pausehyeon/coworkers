@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pausehyeon.coworkers.domain.Reservation;
+import com.pausehyeon.coworkers.exception.BusinessException;
 import com.pausehyeon.coworkers.repository.ReservationRepository;
 
 @Service
@@ -25,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService{
 	 * @description 
 	 * @return Reservation
 	 */
-	public Reservation makeReservation() {
+	public Reservation makeReservation() throws BusinessException{
 		Reservation reservation;
 		
 		/* DB Insert */
@@ -51,7 +52,7 @@ public class ReservationServiceImpl implements ReservationService{
 	 * @description 
 	 * @return List<Reservation>
 	 */
-	public List<Reservation> getReservations(){
+	public List<Reservation> getReservations() throws BusinessException{
 		return (List<Reservation>) repository.findAll();
 	}
 	

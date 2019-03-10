@@ -57,8 +57,12 @@
     	
     	drawCalendarList();
     	
-    }).fail(function(){
-    	alert('통신 오류 발생!');
+    }).fail(function(jqXHR, textStatus, errorThrown){
+    	if(jqXHR.status == 204){
+    		alert("회의실 정보가 존재하지 않습니다. 관리자에게 문의해주세요.");
+    	}else{
+    		alert("일시적인 오류가 발생했습니다. 관리자에게 문의해주세요.\n(오류코드: " + jqXHR.responseJSON.code + ")");
+    	}
     });
 
     // event handlers
