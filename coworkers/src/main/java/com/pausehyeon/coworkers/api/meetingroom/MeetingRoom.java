@@ -1,14 +1,11 @@
-package com.pausehyeon.coworkers.domain;
+package com.pausehyeon.coworkers.api.meetingroom;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,32 +28,22 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class Reservation {
+public class MeetingRoom {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long rid;                 // 예약ID
-	@NonNull
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long mid;                 // 회의실ID
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="mid", insertable=false, updatable=false)
-	private MeetingRoom meetingRoom;  // 회의실
 	@NonNull
-	private String title;             // 예약명
+	private String name;              // 회의실명
 	@NonNull
-	private String userName;          // 예약자명
+	private String buildingName;      // 건물명
 	@NonNull
-	private String pin;               // 예약pin
+ 	private Integer floor;            // 층수
 	@NonNull
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date start;               // 예약시작일시
+	@Temporal(TemporalType.DATE)
+	private Date usableFrom;          // 가용시작일자
 	@NonNull
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date end;                 // 예약종료일시
-	@NonNull
-	private Boolean isRepeated;       // 반복여부
-	private Integer repeatInterval;   // 반복간격
-	private Integer repeatCount;      // 반복횟수
-	private Long representative_rid;  // 대표예약번호
+	@Temporal(TemporalType.DATE)
+	private Date usableTo;            // 가용종료일자
 	@CreationTimestamp
 	private Date firstRegisteredAt;   // 최초등록일시
 	@NonNull

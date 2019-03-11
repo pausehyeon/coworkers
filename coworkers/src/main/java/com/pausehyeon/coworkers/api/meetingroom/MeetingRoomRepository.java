@@ -1,8 +1,6 @@
-package com.pausehyeon.coworkers.repository;
+package com.pausehyeon.coworkers.api.meetingroom;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.pausehyeon.coworkers.domain.MeetingRoom;
 
 public interface MeetingRoomRepository extends CrudRepository<MeetingRoom, Long> {
 

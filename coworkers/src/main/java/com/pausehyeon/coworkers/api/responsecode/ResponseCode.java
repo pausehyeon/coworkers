@@ -1,4 +1,4 @@
-package com.pausehyeon.coworkers.domain;
+package com.pausehyeon.coworkers.api.responsecode;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

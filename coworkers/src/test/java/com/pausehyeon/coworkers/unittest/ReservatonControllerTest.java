@@ -14,9 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.pausehyeon.coworkers.controllers.ReservationController;
-import com.pausehyeon.coworkers.services.ReservationService;
-import com.pausehyeon.coworkers.services.ResponseCodeService;
+import com.pausehyeon.coworkers.api.reservation.ReservationController;
+import com.pausehyeon.coworkers.api.reservation.ReservationService;
+import com.pausehyeon.coworkers.api.responsecode.ResponseCodeService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ReservationController.class)

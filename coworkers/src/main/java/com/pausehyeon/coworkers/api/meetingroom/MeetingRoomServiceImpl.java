@@ -1,13 +1,11 @@
-package com.pausehyeon.coworkers.services;
+package com.pausehyeon.coworkers.api.meetingroom;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pausehyeon.coworkers.domain.MeetingRoom;
 import com.pausehyeon.coworkers.exception.BusinessException;
-import com.pausehyeon.coworkers.repository.MeetingRoomRepository;
 
 @Service
 public class MeetingRoomServiceImpl implements MeetingRoomService {

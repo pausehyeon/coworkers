@@ -1,6 +1,4 @@
-package com.pausehyeon.coworkers.services;
-
-import com.pausehyeon.coworkers.domain.ResponseCode;
+package com.pausehyeon.coworkers.api.responsecode;
 
 public interface ResponseCodeService {
 	public ResponseCode getResponseDetail(String code, Object[] params);

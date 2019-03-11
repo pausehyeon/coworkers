@@ -1,12 +1,9 @@
-package com.pausehyeon.coworkers.services;
+package com.pausehyeon.coworkers.api.responsecode;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.pausehyeon.coworkers.domain.ResponseCode;
-import com.pausehyeon.coworkers.repository.ResponseCodeRepository;
 
 @Service
 public class ResponseCodeServiceImpl implements ResponseCodeService {

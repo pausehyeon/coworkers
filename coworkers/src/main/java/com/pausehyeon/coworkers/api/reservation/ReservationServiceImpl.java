@@ -1,4 +1,4 @@
-package com.pausehyeon.coworkers.services;
+package com.pausehyeon.coworkers.api.reservation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pausehyeon.coworkers.domain.Reservation;
 import com.pausehyeon.coworkers.exception.BusinessException;
-import com.pausehyeon.coworkers.repository.ReservationRepository;
 
 @Service
 public class ReservationServiceImpl implements ReservationService{

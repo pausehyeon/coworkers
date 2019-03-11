@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.pausehyeon.coworkers.domain.ResponseCode;
+import com.pausehyeon.coworkers.api.responsecode.ResponseCode;
+import com.pausehyeon.coworkers.api.responsecode.ResponseCodeService;
 import com.pausehyeon.coworkers.exception.BusinessException;
-import com.pausehyeon.coworkers.services.ResponseCodeService;
 
 @org.springframework.web.bind.annotation.ControllerAdvice
 public class ControllerAdvice {
@@ -20,6 +20,7 @@ public class ControllerAdvice {
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<ErrorResponseBody> handleBusinessExcpetion(BusinessException e) {
 		logger.debug("BUSINESS EXCEPTION OCCURRED: " + e.getStackTrace()[0].toString());
+		//TODO 응답코드 매번 새로 읽지 않도록 수정하기
 		ResponseCode response = responseService.getResponseDetail(e.getCode(), e.getParams());
 		return ResponseEntity
 				.status(response.getHttpCode())

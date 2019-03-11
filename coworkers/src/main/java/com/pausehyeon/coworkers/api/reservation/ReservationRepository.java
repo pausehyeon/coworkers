@@ -1,8 +1,6 @@
-package com.pausehyeon.coworkers.repository;
+package com.pausehyeon.coworkers.api.reservation;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.pausehyeon.coworkers.domain.Reservation;
 
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
 }

@@ -1,8 +1,7 @@
-package com.pausehyeon.coworkers.services;
+package com.pausehyeon.coworkers.api.meetingroom;
 
 import java.util.List;
 
-import com.pausehyeon.coworkers.domain.MeetingRoom;
 import com.pausehyeon.coworkers.exception.BusinessException;
 
 public interface MeetingRoomService {

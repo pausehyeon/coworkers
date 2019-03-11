@@ -16,9 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.pausehyeon.coworkers.controllers.MeetingRoomController;
-import com.pausehyeon.coworkers.services.MeetingRoomService;
-import com.pausehyeon.coworkers.services.ResponseCodeService;
+import com.pausehyeon.coworkers.api.meetingroom.MeetingRoomController;
+import com.pausehyeon.coworkers.api.meetingroom.MeetingRoomService;
+import com.pausehyeon.coworkers.api.responsecode.ResponseCodeService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MeetingRoomController.class)
