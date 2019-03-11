@@ -3,8 +3,10 @@ package com.pausehyeon.coworkers.api.reservation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pausehyeon.coworkers.api.responsecode.ResponseCodeService;
@@ -20,11 +22,22 @@ public class ReservationController {
 	@Autowired
 	ResponseCodeService responseService;
 
-	@RequestMapping(path = "reservations", method = RequestMethod.GET)
+	@GetMapping("/reservations")
 	public Object getReservations() throws BusinessException {
-		logger.debug("controller entered");
-		service.makeReservation();
+		logger.debug("start");
 		return service.getReservations();
+	}
+
+	@GetMapping("/reservation/{rid}")
+	public Object getReservation(@PathVariable Long rid) throws BusinessException {
+		logger.debug("start");
+		return service.getReservation(rid);
+	}
+	
+	@PostMapping("/reservation")
+	public Object postReservations(@RequestBody Reservation reservation) throws BusinessException {
+		logger.debug("start");
+		return service.postReservation(reservation);
 	}
 
 }

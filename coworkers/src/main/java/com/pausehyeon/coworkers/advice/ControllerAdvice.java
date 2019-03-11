@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.pausehyeon.coworkers.api.responsecode.ResponseCode;
 import com.pausehyeon.coworkers.api.responsecode.ResponseCodeService;
@@ -25,6 +26,14 @@ public class ControllerAdvice {
 		return ResponseEntity
 				.status(response.getHttpCode())
 				.body(ErrorResponseBody.builder().code(response.getCode()).message(response.getMessage()).build());
+	}
+	
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ResponseEntity<ErrorResponseBody> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+		logger.debug("MethodArgumentTypeMismatchException OCCURRED: " + e.getStackTrace()[0].toString());
+		return ResponseEntity
+				.status(400)
+				.body(ErrorResponseBody.builder().code("E002").message("입력 항목의 형식이 잘못되었습니다.").build());
 	}
 	
 	@ExceptionHandler(Throwable.class)
