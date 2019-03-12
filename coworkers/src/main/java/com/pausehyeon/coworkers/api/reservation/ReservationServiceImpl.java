@@ -24,7 +24,7 @@ public class ReservationServiceImpl implements ReservationService{
 	public Reservation getReservation(Long rid) throws BusinessException {
 		Optional<Reservation> optionalReservation = repository.findById(rid);
 		if(!optionalReservation.isPresent()) {
-			throw new BusinessException("E101", "예약");
+			throw new BusinessException("S012", "예약");
 		}else {
 			return optionalReservation.get();
 		}

@@ -99,11 +99,39 @@ public class ReservationControllerTest {
     }
     
     @Test
-    public void givenEmptyRid_whenPutReservation_thenReturnJson() throws Exception{
+    public void givenWrongDate_whenPostReservation_thenReturn400() throws Exception{
+    	mvc.perform(post("/reservation")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content("{\"mid\": 1"
+    					+ ", \"title\": \"통합회원제회의\""
+    					+ ", \"userName\": \"정지현\""
+    					+ ", \"pin\": \"3942\""
+    					+ ", \"start\": \"2019031418!!\""
+    					+ ", \"end\": \"201903141830\""
+    					+ ", \"isRepeated\": false}"))
+    	.andExpect(status().is4xxClientError());
+    }    
+    
+    @Test
+    public void givenWrongEnd_whenPostReservation_thenReturn400() throws Exception{
+    	mvc.perform(post("/reservation")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content("{\"mid\": 1"
+    					+ ", \"title\": \"통합회원제회의\""
+    					+ ", \"userName\": \"정지현\""
+    					+ ", \"pin\": \"3942\""
+    					+ ", \"start\": \"201903141800\""
+    					+ ", \"end\": \"201803141830\""
+    					+ ", \"isRepeated\": false}"))
+    	.andExpect(status().is4xxClientError());
+    }    
+    
+    @Test
+    public void givenEmptyRid_whenPutReservation_thenReturn400() throws Exception{
     	mvc.perform(put("/reservation")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content("{\"title\": \"통합회원제회의\""
-    					+ ", \"userName\": \"정지현\""
+    			.content("{\"mid\": 1"
+    					+ ", \"title\": \"통합회원제회의\""
     					+ ", \"pin\": \"3942\""
     					+ ", \"start\": \"201903141800\""
     					+ ", \"end\": \"201903141830\""

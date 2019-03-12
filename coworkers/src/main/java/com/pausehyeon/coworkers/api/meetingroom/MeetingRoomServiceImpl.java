@@ -15,7 +15,7 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 	
 	public List<MeetingRoom> getMeetingRooms() throws BusinessException{
 		if(repository.count() < 0) {
-			throw new BusinessException("E101", "회의실");
+			throw new BusinessException("S012", "회의실");
 		}
 		
 		return (List<MeetingRoom>) repository.findAll();

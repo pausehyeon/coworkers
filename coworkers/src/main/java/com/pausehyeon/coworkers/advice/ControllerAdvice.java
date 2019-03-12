@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -20,7 +21,7 @@ public class ControllerAdvice {
 	public ControllerAdvice(MessageSource messageSource) {
 		this.messageSource = messageSource;
 	}
-
+	
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<ErrorResponseBody> handleBusinessExcpetion(BusinessException e, Locale locale) {
 		logger.debug("BUSINESS EXCEPTION OCCURRED: " + e.getStackTrace()[0].toString());
@@ -30,6 +31,12 @@ public class ControllerAdvice {
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<ErrorResponseBody> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, Locale locale) {
 		logger.debug("MethodArgumentTypeMismatchException OCCURRED: " + e.getStackTrace()[0].toString());
+		return getResponseEntity(locale, "E002");
+	}
+	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<ErrorResponseBody> handleHttpMessageNotReadableException(HttpMessageNotReadableException e, Locale locale) {
+		logger.debug("HttpMessageNotReadableException OCCURRED: " + e.getStackTrace()[0].toString());
 		return getResponseEntity(locale, "E002");
 	}
 
