@@ -1,26 +1,35 @@
 package com.pausehyeon.coworkers.api.reservation;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pausehyeon.coworkers.api.responsecode.ResponseCodeService;
 import com.pausehyeon.coworkers.exception.BusinessException;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class ReservationController {
 	private static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
 	@Autowired
-	ReservationService service;
-
+	private final PostReservationValidator postReservationValidator;
+	
 	@Autowired
-	ResponseCodeService responseService;
+	private final PutReservationValidator putReservationValidator;
+	
+	@Autowired
+	ReservationService service;
 
 	@GetMapping("/reservations")
 	public Object getReservations() throws BusinessException {
@@ -35,8 +44,22 @@ public class ReservationController {
 	}
 	
 	@PostMapping("/reservation")
-	public Object postReservations(@RequestBody Reservation reservation) throws BusinessException {
-		logger.debug("start");
+	public Object postReservation(@RequestBody @Valid Reservation reservation, BindingResult bindingResult) throws BusinessException {
+		// 입력값 유효성 체크
+		postReservationValidator.validate(reservation, bindingResult);
+		if(bindingResult.hasErrors()) {
+			throw new BusinessException(bindingResult.getFieldError().getCode(), bindingResult.getFieldError().getArguments());
+		}
+		return service.postReservation(reservation);
+	}
+	
+	@PutMapping("/reservation")
+	public Object putReservation(@RequestBody @Valid Reservation reservation, BindingResult bindingResult) throws BusinessException {
+		// 입력값 유효성 체크
+		putReservationValidator.validate(reservation, bindingResult);
+		if(bindingResult.hasErrors()) {
+			throw new BusinessException(bindingResult.getFieldError().getCode(), bindingResult.getFieldError().getArguments());
+		}
 		return service.postReservation(reservation);
 	}
 

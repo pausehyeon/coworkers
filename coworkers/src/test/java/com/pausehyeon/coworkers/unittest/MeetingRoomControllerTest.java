@@ -1,8 +1,6 @@
 package com.pausehyeon.coworkers.unittest;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.pausehyeon.coworkers.api.meetingroom.MeetingRoomController;
 import com.pausehyeon.coworkers.api.meetingroom.MeetingRoomService;
-import com.pausehyeon.coworkers.api.responsecode.ResponseCodeService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MeetingRoomController.class)
@@ -30,9 +27,6 @@ public class MeetingRoomControllerTest {
     
     @MockBean
     private MeetingRoomService service;
-    
-    @MockBean
-    private ResponseCodeService responseService;
     
     @Test
     public void whenGetMeetingRooms_thenReturnJsonArray() throws Exception{

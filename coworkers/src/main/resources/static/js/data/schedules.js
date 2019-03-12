@@ -108,7 +108,7 @@ function generateNames() {
 
 function generateRandomSchedule(calendar, renderStart, renderEnd) {
     var schedule = new ScheduleInfo();
-
+    
     schedule.id = chance.guid();
     schedule.calendarId = calendar.id;
 
@@ -152,7 +152,7 @@ function generateRandomSchedule(calendar, renderStart, renderEnd) {
 
 function generateSchedule(viewName, renderStart, renderEnd) {
     ScheduleList = [];
-    // TODO 예약 목록 API 조회 
+    /*
     CalendarList.forEach(function(calendar) {
         var i = 0, length = 10;
         if (viewName === 'month') {
@@ -164,4 +164,71 @@ function generateSchedule(viewName, renderStart, renderEnd) {
             generateRandomSchedule(calendar, renderStart, renderEnd);
         }
     });
+    */
+    
+    var schedule = new ScheduleInfo();
+    
+    $.ajax({
+    	url: Coworkers.domain + '/reservations',
+    	method: 'GET',
+    	dataType: 'json'
+    }).done(function(arr){
+      var schedule;
+
+    	arr.forEach(function(item, index) {
+    		schedule = new ScheduleInfo();
+    		
+    		schedule.id = item.rid;
+        schedule.calendarId = item.mid;
+
+        schedule.title = item.title;
+        schedule.body = item.title;
+        schedule.isReadOnly = false;
+        generateTime(schedule, renderStart, renderEnd);
+        
+        schedule.category = 'time';
+        schedule.isAllday = false;
+        schedule.start = item.start;
+        schedule.end = item.end;
+
+        schedule.isPrivate = false;
+//        schedule.location = '';
+//        schedule.attendees = chance.bool({likelihood: 70}) ? generateNames() : [];
+        schedule.recurrenceRule = item.isRepeated ? 'repeated events' : '';
+
+//        schedule.color = calendar.color;
+//        schedule.bgColor = calendar.bgColor;
+//        schedule.dragBgColor = calendar.dragBgColor;
+//        schedule.borderColor = calendar.borderColor;
+
+//        if (schedule.category === 'milestone') {
+//            schedule.color = schedule.bgColor;
+//            schedule.bgColor = 'transparent';
+//            schedule.dragBgColor = 'transparent';
+//            schedule.borderColor = 'transparent';
+//        }
+
+//        schedule.raw.memo = chance.sentence();
+        schedule.raw.creator.name = item.userName;
+//        schedule.raw.creator.avatar = chance.avatar();
+//        schedule.raw.creator.company = chance.company();
+//        schedule.raw.creator.email = chance.email();
+//        schedule.raw.creator.phone = chance.phone();
+
+//        if (chance.bool({ likelihood: 20 })) {
+//            var travelTime = chance.minute();
+//            schedule.goingDuration = travelTime;
+//            schedule.comingDuration = travelTime;
+//        }
+
+        ScheduleList.push(schedule);
+    	});
+    	
+    }).fail(function(jqXHR, textStatus, errorThrown){
+    	if(jqXHR.status == 204){
+    		console.log("예약 정보가 존재하지 않습니다.");
+    	}else{
+    		alert("일시적인 오류가 발생했습니다. 관리자에게 문의해주세요.\n(오류코드: " + jqXHR.responseJSON.code + ")");
+    	}
+    });  
 }

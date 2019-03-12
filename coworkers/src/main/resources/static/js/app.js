@@ -312,36 +312,64 @@
             });
         }
     }
+    
     function saveNewSchedule(scheduleData) {
         var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
-        var schedule = {
-            id: String(chance.guid()),
-            title: scheduleData.title,
-            isAllDay: scheduleData.isAllDay,
-            start: scheduleData.start,
-            end: scheduleData.end,
-            category: scheduleData.isAllDay ? 'allday' : 'time',
-            dueDateClass: '',
-            color: calendar.color,
-            bgColor: calendar.bgColor,
-            dragBgColor: calendar.bgColor,
-            borderColor: calendar.borderColor,
-            location: scheduleData.location,
-            raw: {
-                class: scheduleData.raw['class']
-            },
-            state: scheduleData.state
-        };
-        if (calendar) {
-            schedule.calendarId = calendar.id;
-            schedule.color = calendar.color;
-            schedule.bgColor = calendar.bgColor;
-            schedule.borderColor = calendar.borderColor;
-        }
-
-        cal.createSchedules([schedule]);
-
-        refreshScheduleVisibility();
+        
+        console.log(scheduleData);
+        
+        var data = {};
+        data.mid = scheduleData.calendarId;
+        data.title = scheduleData.title;
+        data.userName = scheduleData.title; //TODO user 추가
+        data.pin = 'enc_pin'; //TODO pin 추가
+        data.start = moment(scheduleData.start.toDate()).format('YYYYMMDDHHmm');
+        data.end = moment(scheduleData.end.toDate()).format('YYYYMMDDHHmm');
+        data.isRepeated = false; //TODO 반복여부 추가
+        /*
+        data.repeatInterval = 0;
+        data.repeatCount = 0;
+        */
+        
+        $.ajax({
+        	url: Coworkers.domain + '/reservation',
+        	method: 'POST',
+        	contentType: 'application/json',
+        	dataType: 'json',
+        	data: JSON.stringify(data)
+        }).done(function(item){
+        	var schedule = {
+        			id: item.rid,
+        			title: item.title,
+        			isAllDay: false,
+        			start: item.start,
+        			end: item.end,
+        			category: scheduleData.isAllDay ? 'allday' : 'time',
+        					dueDateClass: '',
+        					color: calendar.color,
+        					bgColor: calendar.bgColor,
+        					dragBgColor: calendar.bgColor,
+        					borderColor: calendar.borderColor,
+//        					location: scheduleData.location,
+        					raw: {
+        						class: scheduleData.raw['class']
+        					},
+        					state: scheduleData.state
+        	};
+        	
+        	if (calendar) {
+        		schedule.calendarId = calendar.id;
+        		schedule.color = calendar.color;
+        		schedule.bgColor = calendar.bgColor;
+        		schedule.borderColor = calendar.borderColor;
+        	}
+        	
+        	cal.createSchedules([schedule]);
+        	
+        	refreshScheduleVisibility();
+        }).fail(function(jqXHR, textStatus, errorThrown){
+        		alert("일시적인 오류가 발생했습니다. 관리자에게 문의해주세요.\n(오류코드: " + jqXHR.responseJSON.code + ")");
+        });
     }
 
     function onChangeCalendars(e) {
