@@ -79,7 +79,26 @@ public class ReservationControllerTest {
     					+ ", \"pin\": \"3942\""
     					+ ", \"start\": \"201903141800\""
     					+ ", \"end\": \"201903141830\""
-    					+ ", \"isRepeated\": false}"))
+    					+ ", \"isRepeated\": false"
+    					+ ", \"firstRegisteredThrough\": \"WEB001\"}"))
+    	.andExpect(status().isOk())
+    	.andExpect(status().is2xxSuccessful());
+    }
+    
+    @Test
+    public void whenPostRepeatedReservation_thenReturnJson() throws Exception{
+    	mvc.perform(post("/reservation")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content("{\"mid\": 1"
+    					+ ", \"title\": \"통합회원제회의\""
+    					+ ", \"userName\": \"정지현\""
+    					+ ", \"pin\": \"3942\""
+    					+ ", \"start\": \"201903141800\""
+    					+ ", \"end\": \"201903141830\""
+    					+ ", \"isRepeated\": true"
+    					+ ", \"repeatInterval\": 7"
+    					+ ", \"repeatCount\": 3"
+    					+ ", \"firstRegisteredThrough\": \"WEB001\"}"))
     	.andExpect(status().isOk())
     	.andExpect(status().is2xxSuccessful());
     }
@@ -88,15 +107,31 @@ public class ReservationControllerTest {
     public void givenEmptyRid_whenPostReservation_thenReturnJson() throws Exception{
     	mvc.perform(post("/reservation")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content("{\"mid\": 1"
+    					+ ", \"title\": \"통합회원제회의\""
+    					+ ", \"userName\": \"정지현\""
+    					+ ", \"pin\": \"3942\""
+    					+ ", \"start\": \"201903141800\""
+				    	+ ", \"isRepeated\": false"
+				    	+ ", \"firstRegisteredThrough\": \"WEB001\"}"))
+    	.andExpect(status().isOk())
+    	.andExpect(status().is2xxSuccessful());
+    }
+    
+    /*
+    @Test
+    public void givenEmptyMid_whenPostReservation_thenReturn400() throws Exception{
+    	mvc.perform(post("/reservation")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content("{\"title\": \"통합회원제회의\""
     					+ ", \"userName\": \"정지현\""
     					+ ", \"pin\": \"3942\""
     					+ ", \"start\": \"201903141800\""
-    					+ ", \"end\": \"201903141830\""
-    					+ ", \"isRepeated\": false}"))
-    	.andExpect(status().isOk())
-    	.andExpect(status().is2xxSuccessful());
+    					+ ", \"isRepeated\": false"
+    					+ ", \"firstRegisteredThrough\": \"WEB001\"}"))
+    	.andExpect(status().is4xxClientError());
     }
+    */
     
     @Test
     public void givenWrongDate_whenPostReservation_thenReturn400() throws Exception{
@@ -108,10 +143,12 @@ public class ReservationControllerTest {
     					+ ", \"pin\": \"3942\""
     					+ ", \"start\": \"2019031418!!\""
     					+ ", \"end\": \"201903141830\""
-    					+ ", \"isRepeated\": false}"))
+    					+ ", \"isRepeated\": false"
+    					+ ", \"firstRegisteredThrough\": \"WEB001\"}"))
     	.andExpect(status().is4xxClientError());
-    }    
+    } 
     
+    /*
     @Test
     public void givenWrongEnd_whenPostReservation_thenReturn400() throws Exception{
     	mvc.perform(post("/reservation")
@@ -121,11 +158,29 @@ public class ReservationControllerTest {
     					+ ", \"userName\": \"정지현\""
     					+ ", \"pin\": \"3942\""
     					+ ", \"start\": \"201903141800\""
-    					+ ", \"end\": \"201803141830\""
-    					+ ", \"isRepeated\": false}"))
+    					+ ", \"end\": \"201903131830\""
+    					+ ", \"isRepeated\": false"
+    					+ ", \"firstRegisteredThrough\": \"WEB001\"}"))
     	.andExpect(status().is4xxClientError());
     }    
+    */
     
+    @Test
+    public void givenEmptyRid_whenPutReservation_thenReturn400() throws Exception{
+    	mvc.perform(put("/reservation")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content("{\"rid\": 1"
+    					+"\"mid\": 1"
+    					+ ", \"title\": \"통합회원제회의\""
+    					+ ", \"pin\": \"3942\""
+    					+ ", \"start\": \"201903141800\""
+    					+ ", \"end\": \"201903141830\""
+    					+ ", \"isRepeated\": false"
+    					+ ", \"lastModifiedThrough\": \"WEB001\"}"))
+    	.andExpect(status().is4xxClientError());
+    }
+
+    /*
     @Test
     public void givenEmptyRid_whenPutReservation_thenReturn400() throws Exception{
     	mvc.perform(put("/reservation")
@@ -135,7 +190,9 @@ public class ReservationControllerTest {
     					+ ", \"pin\": \"3942\""
     					+ ", \"start\": \"201903141800\""
     					+ ", \"end\": \"201903141830\""
-    					+ ", \"isRepeated\": false}"))
+    					+ ", \"isRepeated\": false"
+    					+ ", \"lastModifiedThrough\": \"WEB001\"}"))
     	.andExpect(status().is4xxClientError());
     }
+    */
 }
