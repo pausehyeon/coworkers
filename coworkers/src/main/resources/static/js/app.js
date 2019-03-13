@@ -323,13 +323,14 @@
         data.title = scheduleData.title;
         data.userName = scheduleData.title; //TODO user 추가
         data.pin = 'enc_pin'; //TODO pin 추가
-        data.start = moment(scheduleData.start.toDate()).format('YYYYMMDDHHmm');
-        data.end = moment(scheduleData.end.toDate()).format('YYYYMMDDHHmm');
+        data.start = scheduleData.start.toUTCString();
+        data.end = scheduleData.end.toUTCString();
         data.isRepeated = false; //TODO 반복여부 추가
         /*
         data.repeatInterval = 0;
         data.repeatCount = 0;
         */
+        data.firstRegisteredThrough = Coworkers.channelCode;
         
         $.ajax({
         	url: Coworkers.domain + '/reservation',

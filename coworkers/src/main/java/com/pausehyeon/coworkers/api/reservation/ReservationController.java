@@ -1,6 +1,6 @@
 package com.pausehyeon.coworkers.api.reservation;
 
-import javax.validation.Valid;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +36,12 @@ public class ReservationController {
 		logger.debug("start");
 		return service.getReservations();
 	}
+	
+	@GetMapping("/reservations/{date}")
+	public Object getReservations(@PathVariable Date date) throws BusinessException {
+		logger.debug("date="+date.toString());
+		return service.getReservations(date);
+	}
 
 	@GetMapping("/reservation/{rid}")
 	public Object getReservation(@PathVariable Long rid) throws BusinessException {
@@ -44,7 +50,7 @@ public class ReservationController {
 	}
 	
 	@PostMapping("/reservation")
-	public Object postReservation(@RequestBody @Valid Reservation reservation, BindingResult bindingResult) throws BusinessException {
+	public Object postReservation(@RequestBody Reservation reservation, BindingResult bindingResult) throws BusinessException {
 		// 입력값 유효성 체크
 		postReservationValidator.validate(reservation, bindingResult);
 		if(bindingResult.hasErrors()) {
@@ -54,7 +60,7 @@ public class ReservationController {
 	}
 	
 	@PutMapping("/reservation")
-	public Object putReservation(@RequestBody @Valid Reservation reservation, BindingResult bindingResult) throws BusinessException {
+	public Object putReservation(@RequestBody Reservation reservation, BindingResult bindingResult) throws BusinessException {
 		// 입력값 유효성 체크
 		putReservationValidator.validate(reservation, bindingResult);
 		if(bindingResult.hasErrors()) {

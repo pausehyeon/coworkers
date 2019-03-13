@@ -5,6 +5,8 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,13 +49,23 @@ public class ControllerAdvice {
 	}
 	
 	private ResponseEntity<ErrorResponseBody> getResponseEntity(Locale locale, String code, Object... params){
-		return ResponseEntity
-				.status(Integer.parseInt(messageSource
-						.getMessage("response.status."+code, null, locale)))
-				.body(ErrorResponseBody
-						.builder()
-						.code(code)
-						.message(messageSource.getMessage("response.msg."+code, params, locale))
-						.build());
+		
+		try {
+			return ResponseEntity
+					.status(Integer.parseInt(messageSource.getMessage("response.status."+code, null, locale)))
+					.body(ErrorResponseBody
+							.builder()
+							.code(code)
+							.message(messageSource.getMessage("response.msg."+code, params, locale))
+							.build());
+		}catch(NoSuchMessageException e) {
+			return ResponseEntity
+					.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ErrorResponseBody
+							.builder()
+							.code(code)
+							.message("서버에서 오류가 발생했습니다. 담당자에게 문의해주세요.")
+							.build());
+		}
 	}
 }
