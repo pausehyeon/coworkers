@@ -15,9 +15,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 	public List<Reservation> findAllByDate(@Param("date") Date date, @Param("nextDay") Date nextDay);
 	
 	@Query("SELECT count(1) FROM Reservation r "
-			+ "WHERE (r.start <= (:start) AND r.end > (:start))"
-			+ "OR (r.start > (:start) AND r.start < (:end))")
-	public Long countDuplicatedReservations(@Param("start") Date Start, @Param("end") Date End);
+			+ "WHERE mid = (:mid) "
+			+ "AND ((r.start <= (:start) AND r.end > (:start))"
+			+ "OR (r.start > (:start) AND r.start < (:end))) ")
+	public Long countDuplicatedReservations(@Param("start") Date Start, @Param("end") Date End, @Param("mid") Long mid);
 	
 	public List<Reservation> findByRepresentativeRid(Long representativeRid);
 }

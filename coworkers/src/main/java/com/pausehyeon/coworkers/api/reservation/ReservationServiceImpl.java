@@ -102,7 +102,7 @@ public class ReservationServiceImpl implements ReservationService {
 	 * @return Reservation
 	 */
 	private Reservation saveReservation(Reservation reservation) throws BusinessException {
-		if(repository.countDuplicatedReservations(reservation.getStart(), reservation.getEnd()) > 0) {
+		if(repository.countDuplicatedReservations(reservation.getStart(), reservation.getEnd(), reservation.getMid()) > 0) {
 			throw new BusinessException("E202");
 		}else {
 			reservation = repository.save(reservation);

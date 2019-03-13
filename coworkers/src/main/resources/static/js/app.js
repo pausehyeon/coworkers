@@ -314,7 +314,9 @@
     }
     
     function saveNewSchedule(scheduleData) {
-        var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
+    		if(!scheduleData.calendarId) scheduleData.calendarId = 1;
+        
+    		var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
         
         console.log(scheduleData);
         
